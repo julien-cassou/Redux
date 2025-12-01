@@ -1,4 +1,5 @@
 package Labyrinthe;
+import java.awt.Graphics;
 public abstract class Case {
     private final int l, c;
     public Case(int l, int c) {
@@ -17,4 +18,5 @@ public abstract class Case {
     }
 
     abstract public String toString();
+    abstract public void dessinerCase(Graphics g, int Taille);
 }

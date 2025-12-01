@@ -1,4 +1,6 @@
 package Labyrinthe;
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class CaseOrdinaire extends Case {
     private Entite contenant;
@@ -29,5 +31,19 @@ public class CaseOrdinaire extends Case {
             return "B";
         }
         return " ";
+    }
+
+    @Override
+    public void dessinerCase(Graphics g, int Taille) {
+        if (this instanceof Sortie) {
+            g.setColor(Color.BLUE);
+        }
+        else if(this.contenant instanceof Obstacle) {
+            g.setColor(Color.GRAY);
+        }
+        else {
+            g.setColor(Color.WHITE);
+        }
+        g.fillRect(this.getColonne() * Taille, this.getLigne() * Taille, Taille, Taille);
     }
 }
