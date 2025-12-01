@@ -9,4 +9,9 @@ public class CaseIntraversable extends Case {
     public boolean isEmpty() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "#";
+    }
 }

@@ -19,4 +19,15 @@ public class CaseOrdinaire extends Case {
     }
 
     public Entite getEntite() { return this.contenant;}
+
+    @Override 
+    public String toString() {
+        if(this.contenant instanceof Obstacle) {
+            return "O";
+        }
+        else if(this.contenant instanceof Bille) {
+            return "B";
+        }
+        return " ";
+    }
 }

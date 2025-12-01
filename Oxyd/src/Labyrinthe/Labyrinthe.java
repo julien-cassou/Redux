@@ -10,7 +10,7 @@ public class Labyrinthe {
 
     public Labyrinthe(String file) {
         try {
-            Scanner sc = new Scanner(new FileInputStream(file));
+            Scanner sc = new Scanner(new FileInputStream("src/" + file));
             this.hauteur = sc.nextInt();
             this.largeur = sc.nextInt();
             sc.nextLine();
@@ -36,6 +36,15 @@ public class Labyrinthe {
         }
         catch (IOException e) { 
             e.printStackTrace(); 
+        }
+    }
+
+    public void affiche() {
+        for(int i = 0; i < this.hauteur; i++) {
+            for(int j = 0; j < this.largeur ; j++) {
+                System.out.print(this.laby[i][j]);
+            }
+            System.out.println();
         }
     }
 }

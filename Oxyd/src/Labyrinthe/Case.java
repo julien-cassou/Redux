@@ -15,4 +15,6 @@ public abstract class Case {
     public int getColonne() {
         return this.c;
     }
+
+    abstract public String toString();
 }
