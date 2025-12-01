@@ -1,0 +1,18 @@
+package Labyrinthe;
+public abstract class Case {
+    private final int l, c;
+    public Case(int l, int c) {
+        this.l = l;
+        this.c = c;
+    }
+
+    abstract public boolean isEmpty();
+
+    public int getLigne() {
+        return this.l;
+    }
+
+    public int getColonne() {
+        return this.c;
+    }
+}
