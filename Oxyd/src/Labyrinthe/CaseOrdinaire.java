@@ -35,15 +35,22 @@ public class CaseOrdinaire extends Case {
 
     @Override
     public void dessinerCase(Graphics g, int Taille) {
+        int x = this.getColonne() * Taille;
+        int y = this.getLigne() * Taille;
+        
         if (this instanceof Sortie) {
             g.setColor(Color.BLUE);
+            g.fillRect(x, y, Taille, Taille);
         }
         else if(this.contenant instanceof Obstacle) {
             g.setColor(Color.GRAY);
+            g.fillRect(x, y, Taille, Taille);
         }
         else {
             g.setColor(Color.WHITE);
+            g.fillRect(x, y, Taille, Taille);
+            g.setColor(Color.BLACK);
+            g.drawRect(x, y, Taille - 1, Taille - 1);
         }
-        g.fillRect(this.getColonne() * Taille, this.getLigne() * Taille, Taille, Taille);
     }
 }

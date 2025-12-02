@@ -12,6 +12,7 @@ public class Labyrinthe extends JPanel {
     private Case[][] laby;
     private int hauteur, largeur;
     final int TailleCase;
+    private Bille b;
 
     public Labyrinthe(String file) {
         int tempTaille = 0;
@@ -33,7 +34,7 @@ public class Labyrinthe extends JPanel {
                         case ' ': cc = new CaseOrdinaire(l, c); break;
                         case 'S': cc = new Sortie(l, c); break;
                         
-                        case 'B': cc = new CaseOrdinaire(l, c, new Bille(l, c)); break;
+                        case 'B': this.b = new Bille(l, c); cc = new CaseOrdinaire(l, c, this.b); break;
                         case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10)); break;
                         default:  cc = null; break;
                     }
@@ -70,5 +71,6 @@ public class Labyrinthe extends JPanel {
                 this.laby[i][j].dessinerCase(g, TailleCase);
             }
         }
+        this.b.dessinerBille(g, TailleCase);
     }
 }

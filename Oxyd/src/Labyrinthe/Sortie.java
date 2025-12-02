@@ -1,6 +1,4 @@
 package Labyrinthe;
-import java.awt.Color;
-import java.awt.Graphics;
 
 public class Sortie extends CaseOrdinaire {
     public Sortie(int l, int c) {
