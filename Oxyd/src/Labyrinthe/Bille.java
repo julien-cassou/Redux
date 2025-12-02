@@ -23,7 +23,7 @@ public class Bille extends Entite {
     }
 
     public void dessinerBille(Graphics g, int Taille) {
-        int r = (int) (Taille * 0.3f);
+        int r = (int) (Taille * 0.7f);
         System.out.println(r);
         g.setColor(Color.DARK_GRAY);
         int x = (int)(this.getColonne() * Taille - Taille/2 - r);
@@ -31,5 +31,6 @@ public class Bille extends Entite {
         System.out.println(x);
         System.out.println(y);
         g.fillOval(x, y, r, r);
+        g.fillOval(this.getColonne(), this.getLigne(), );
     }
 }
