@@ -11,17 +11,18 @@ import java.io.IOException;
 public class Labyrinthe extends JPanel {
     private Case[][] laby;
     private int hauteur, largeur;
-    final int TailleCase;
+    private int TailleCase;
     private Bille b;
+    private Case caseBille;
 
     public Labyrinthe(String file) {
-        int tempTaille = 0;
+        this.TailleCase = 5;
         try {
             Scanner sc = new Scanner(new FileInputStream("src/" + file));
             this.hauteur = sc.nextInt();
             this.largeur = sc.nextInt();
             sc.nextLine();
-            tempTaille = sc.nextInt();
+            this.TailleCase = sc.nextInt();
             sc.nextLine();
             this.laby = new Case[hauteur][largeur];
             for (int l = 0; l < this.hauteur; l++) {
@@ -34,7 +35,11 @@ public class Labyrinthe extends JPanel {
                         case ' ': cc = new CaseOrdinaire(l, c); break;
                         case 'S': cc = new Sortie(l, c); break;
                         
-                        case 'B': this.b = new Bille(l, c); cc = new CaseOrdinaire(l, c, this.b); break;
+                        case 'B':
+                            int r = (int) (this.TailleCase * 0.6f); 
+                            this.b = new Bille(l, c, r, this.TailleCase); 
+                            cc = new CaseOrdinaire(l, c, this.b); 
+                            this.caseBille = cc; break;
                         case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10)); break;
                         default:  cc = null; break;
                     }
@@ -46,7 +51,6 @@ public class Labyrinthe extends JPanel {
         catch (IOException e) { 
             e.printStackTrace(); 
         }
-        this.TailleCase = tempTaille;
         this.setPreferredSize(new Dimension(this.largeur * TailleCase, this.hauteur * TailleCase));
     }
 
@@ -71,6 +75,10 @@ public class Labyrinthe extends JPanel {
                 this.laby[i][j].dessinerCase(g, TailleCase);
             }
         }
-        this.b.dessinerBille(g, TailleCase);
+        this.b.dessinerBille(g);
+    }
+
+    public void test() {
+        this.caseBille.touch(this.b, this.TailleCase);
     }
 }

@@ -8,6 +8,9 @@ public abstract class Case {
     }
 
     abstract public boolean isEmpty();
+    abstract public void enter(Bille b);
+    abstract public void leave(Bille b);
+    abstract public void touch(Bille b, int Taille);
 
     public int getLigne() {
         return this.l;
