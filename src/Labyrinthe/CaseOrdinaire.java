@@ -28,22 +28,46 @@ public class CaseOrdinaire extends Case {
 
     @Override
     public void touch(Bille b, int Taille) {
+        if (this.contenant == null || this.contenant instanceof Bille) {
+            return; 
+        }
         // Déclaration des variables 
         int r = b.getRayon();
-        int x = b.getColonne(); int y = b.getLigne();
-        int i = this.getColonne(); int j = this.getLigne();
+        int x = b.getColonne(); 
+        int y = b.getLigne();
+        int caseX = this.getColonne() * Taille; 
+        int caseY = this.getLigne() * Taille;
 
-        if(x + r > i * Taille + Taille) {
-            System.out.println("Touché case devant");
+        double vx = b.getVx();
+        double vy = b.getVy();
+
+        if(x + r > caseX + Taille) {
+            // System.out.println("Touché case devant");
+            if(vx > 0) {
+                b.setColonne((int) (caseX - r));
+                b.inverseVX();
+            }
         }
-        if(x - r < i) {
-            System.out.println("Touché case derriere");
+        if(x - r < caseX) {
+            // System.out.println("Touché case derriere");
+            if(vx < 0) {
+                b.setColonne((int)(caseX + r));
+                b.inverseVX();
+            }
         }
-        if(y + r > j * Taille + Taille) {
-            System.out.println("Touché case dessous");
+        if(y + r > caseY + Taille) {
+            // System.out.println("Touché case dessous");
+            if(vy > 0) {
+                b.setLigne((int) (caseY - r));
+                b.inverseVY();
+            }
         }
-        if(y - r < j) {
-            System.out.println("Touché case dessus");
+        if(y - r < caseY) {
+            // System.out.println("Touché case dessus");
+            if(vy < 0) {
+                b.setLigne((int) (caseY + r));
+                b.inverseVY();
+            }
         }
     }
 

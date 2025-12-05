@@ -13,7 +13,6 @@ public class Labyrinthe extends JPanel {
     private int hauteur, largeur;
     private int TailleCase;
     private Bille b;
-    private Case caseBille;
 
     public Labyrinthe(String file) {
         this.TailleCase = 5;
@@ -36,10 +35,9 @@ public class Labyrinthe extends JPanel {
                         case 'S': cc = new Sortie(l, c); break;
                         
                         case 'B':
-                            int r = (int) (this.TailleCase * 0.6f); 
+                            int r = (int) (this.TailleCase * 0.3f); 
                             this.b = new Bille(l, c, r, this.TailleCase); 
-                            cc = new CaseOrdinaire(l, c, this.b); 
-                            this.caseBille = cc; break;
+                            cc = new CaseOrdinaire(l, c, this.b); break;
                         case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10)); break;
                         default:  cc = null; break;
                     }
@@ -78,7 +76,45 @@ public class Labyrinthe extends JPanel {
         this.b.dessinerBille(g);
     }
 
-    public void test() {
-        this.caseBille.touch(this.b, this.TailleCase);
+
+    /**
+     * Fonction qui retourne la case du plateau
+     * des coords données
+     */
+    public Case getCase(int x, int y) {
+        if (x >= 0 && x < this.largeur && y >= 0 && y < this.hauteur) {
+            return this.laby[y][x];
+        }
+        return null;
+    }
+    
+    public void tour() {
+        this.b.avance();
+        
+        int l = this.b.getLigne();
+        int c = this.b.getColonne();
+        
+        verifierCollision(l - 1, c); // Voisin Haut
+        verifierCollision(l + 1, c); // Voisin Bas
+        verifierCollision(l, c - 1); // Voisin Gauche
+        verifierCollision(l, c + 1); // Voisin Droite
+        
+        // Voisins en diagonale pour les coins parfaits
+        // verifierCollision(l - 1, c - 1);
+        // verifierCollision(l - 1, c + 1);
+        // verifierCollision(l + 1, c - 1);
+        // verifierCollision(l + 1, c + 1);
+    }
+
+    // Petite fonction pour éviter de copier-coller le if partout
+    private void verifierCollision(int l, int c) {
+        Case caseVoisine = getCase(c, l);
+
+        if (caseVoisine == null) {
+            return;
+        }
+        if (caseVoisine instanceof CaseIntraversable || !caseVoisine.isEmpty()) {
+            caseVoisine.touch(this.b, this.TailleCase);
+        }
     }
 }

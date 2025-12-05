@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.Timer;
 
 import Labyrinthe.Labyrinthe;
 
@@ -11,6 +12,14 @@ public class Jeu {
         j.pack();
         j.setVisible(true);
         j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        t.test();
+
+
+        int tempo = 50;
+        Timer timer = new javax.swing.Timer(tempo, e -> {
+            t.tour();
+            j.repaint();
+        });
+        timer.setInitialDelay(0);
+        timer.start();
     }
 }
