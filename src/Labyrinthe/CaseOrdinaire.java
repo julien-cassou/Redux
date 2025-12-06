@@ -17,7 +17,7 @@ public class CaseOrdinaire extends Case {
 
     @Override
     public boolean isEmpty() {
-        return this.contenant == null;
+        return this.contenant == null || (this.contenant instanceof Bille);
     }
 
     @Override
@@ -27,49 +27,62 @@ public class CaseOrdinaire extends Case {
     public void leave(Bille b) {}
 
     @Override
-    public void touch(Bille b, int Taille) {
-        if (this.contenant == null || this.contenant instanceof Bille) {
-            return; 
-        }
-        // Déclaration des variables 
-        int r = b.getRayon();
-        int x = b.getColonne(); 
-        int y = b.getLigne();
-        int caseX = this.getColonne() * Taille; 
-        int caseY = this.getLigne() * Taille;
-
+    public void touch(Bille b, int Taille, Labyrinthe l) {
+        // Déclarations des variables
+        double bx = b.getX();
+        double by = b.getY();
+        int r = b.getRayon(); 
         double vx = b.getVx();
         double vy = b.getVy();
 
-        if(x + r > caseX + Taille) {
-            // System.out.println("Touché case devant");
-            if(vx > 0) {
-                b.setColonne((int) (caseX - r));
+        int ligneDessin = b.getLigne() * Taille;
+        int colonneDessin = b.getColonne() * Taille;
+        int ligne = ligneDessin / Taille;
+        int colonne = colonneDessin / Taille;
+
+
+        // 1. Rebonds horizontaux
+        // vers la droite
+        if(vx > 0 && bx + r > colonneDessin + Taille) {
+            Case c1 = l.getCase(ligne, colonne + 1);
+            if(c1 instanceof CaseIntraversable || !c1.isEmpty()) {
+                System.out.println(c1);
+                b.setX(colonneDessin + Taille - r);
+                b.inverseVX();
+            }
+        } 
+        // vers la gauche
+        else if(vx < 0 && bx - r < colonneDessin) {
+            Case c2 = l.getCase(ligne, colonne - 1);
+            if(c2 instanceof CaseIntraversable || !c2.isEmpty()) {
+                System.out.println(c2);
+                b.setX(colonneDessin + r);
                 b.inverseVX();
             }
         }
-        if(x - r < caseX) {
-            // System.out.println("Touché case derriere");
-            if(vx < 0) {
-                b.setColonne((int)(caseX + r));
-                b.inverseVX();
-            }
-        }
-        if(y + r > caseY + Taille) {
-            // System.out.println("Touché case dessous");
-            if(vy > 0) {
-                b.setLigne((int) (caseY - r));
+        // 2. Rebonds verticaux
+        // vers le bas 
+        if(vy > 0 && by + r > ligneDessin + Taille) {
+            Case c3 = l.getCase(ligne + 1, colonne);
+            if(c3 instanceof CaseIntraversable || !c3.isEmpty()) {
+                System.out.println(c3);
+                b.setY(ligneDessin + Taille - r);
                 b.inverseVY();
             }
         }
-        if(y - r < caseY) {
-            // System.out.println("Touché case dessus");
-            if(vy < 0) {
-                b.setLigne((int) (caseY + r));
+        // vers le haut
+        if(vy < 0 && by - r < ligneDessin) {
+            Case c4 = l.getCase(ligne - 1, colonne);
+            if(c4 instanceof CaseIntraversable || !c4.isEmpty()) {
+                System.out.println(c4);
+                b.setY(ligneDessin + r);
                 b.inverseVY();
             }
         }
+
+
     }
+    
 
     public Entite getEntite() { return this.contenant;}
 

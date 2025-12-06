@@ -10,7 +10,7 @@ public class Bille extends Entite {
 
     public Bille(int l, int c, int r, int tailleCase) {
         super(l, c);
-        this.vx = 0.07 * tailleCase;
+        this.vx = 0.02 * tailleCase;
         this.vy = 0.05 * tailleCase;
         this.r = r;
 
@@ -43,12 +43,14 @@ public class Bille extends Entite {
      * Met à jour la position précise (double) PUIS la case correspondante (int)
      */
     public void avance() {
-        this.x += this.vx;
+        this.x += this
+        .vx;
         this.y += this.vy;
 
-        int nouvelleColonne = (int) ((this.x + r) / this.tailleCase);
-        int nouvelleLigne = (int) ((this.y + r) / this.tailleCase);
+        int nouvelleColonne = (int) ((this.x) / this.tailleCase);
+        int nouvelleLigne = (int) ((this.y) / this.tailleCase);
         
+        // System.out.println("bx : " + x + " by : " + y + "; ix : " + nouvelleColonne + " iy : " + nouvelleLigne);
         this.setColonne(nouvelleColonne);
         this.setLigne(nouvelleLigne);
     }

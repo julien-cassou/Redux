@@ -10,7 +10,7 @@ public abstract class Case {
     abstract public boolean isEmpty();
     abstract public void enter(Bille b);
     abstract public void leave(Bille b);
-    abstract public void touch(Bille b, int Taille);
+    abstract public void touch(Bille b, int Taille, Labyrinthe l);
 
     public int getLigne() {
         return this.l;
