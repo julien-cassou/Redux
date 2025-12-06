@@ -15,6 +15,7 @@ public class CaseOrdinaire extends Case {
         this.contenant = e;
     }
 
+
     @Override
     public boolean isEmpty() {
         return this.contenant == null || (this.contenant instanceof Bille);
@@ -45,7 +46,7 @@ public class CaseOrdinaire extends Case {
         // vers la droite
         if(vx > 0 && bx + r > colonneDessin + Taille) {
             Case c1 = l.getCase(ligne, colonne + 1);
-            if(c1 instanceof CaseIntraversable || !c1.isEmpty()) {
+            if(c1 instanceof CaseIntraversable || c1.isObstacle()) {
                 System.out.println(c1);
                 b.setX(colonneDessin + Taille - r);
                 b.inverseVX();
@@ -54,7 +55,7 @@ public class CaseOrdinaire extends Case {
         // vers la gauche
         else if(vx < 0 && bx - r < colonneDessin) {
             Case c2 = l.getCase(ligne, colonne - 1);
-            if(c2 instanceof CaseIntraversable || !c2.isEmpty()) {
+            if(c2 instanceof CaseIntraversable || c2.isObstacle()) {
                 System.out.println(c2);
                 b.setX(colonneDessin + r);
                 b.inverseVX();
@@ -64,7 +65,7 @@ public class CaseOrdinaire extends Case {
         // vers le bas 
         if(vy > 0 && by + r > ligneDessin + Taille) {
             Case c3 = l.getCase(ligne + 1, colonne);
-            if(c3 instanceof CaseIntraversable || !c3.isEmpty()) {
+            if(c3 instanceof CaseIntraversable || c3.isObstacle()) {
                 System.out.println(c3);
                 b.setY(ligneDessin + Taille - r);
                 b.inverseVY();
@@ -73,16 +74,21 @@ public class CaseOrdinaire extends Case {
         // vers le haut
         if(vy < 0 && by - r < ligneDessin) {
             Case c4 = l.getCase(ligne - 1, colonne);
-            if(c4 instanceof CaseIntraversable || !c4.isEmpty()) {
+            if(c4 instanceof CaseIntraversable || c4.isObstacle()) {
                 System.out.println(c4);
                 b.setY(ligneDessin + r);
                 b.inverseVY();
             }
         }
-
-
     }
     
+    
+    /**
+     * @return un booléen true si
+     */
+    public boolean isObstacle() {
+        return this.contenant instanceof Obstacle;
+    }
 
     public Entite getEntite() { return this.contenant;}
 

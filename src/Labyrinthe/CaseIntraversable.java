@@ -19,9 +19,13 @@
         public void leave(Bille b) {}
 
         @Override
-        public void touch(Bille b, int Taille, Labyrinthe l) {
-            System.out.println("test");
+        public void touch(Bille b, int Taille, Labyrinthe l) {}
+
+        @Override
+        public boolean isObstacle() {
+            return false;
         }
+        
         @Override
         public String toString() {
             return "#";

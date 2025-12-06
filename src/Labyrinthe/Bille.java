@@ -10,7 +10,7 @@ public class Bille extends Entite {
 
     public Bille(int l, int c, int r, int tailleCase) {
         super(l, c);
-        this.vx = 0.02 * tailleCase;
+        this.vx = 0.00 * tailleCase;
         this.vy = 0.05 * tailleCase;
         this.r = r;
 

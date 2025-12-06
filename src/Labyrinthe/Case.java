@@ -11,6 +11,7 @@ public abstract class Case {
     abstract public void enter(Bille b);
     abstract public void leave(Bille b);
     abstract public void touch(Bille b, int Taille, Labyrinthe l);
+    abstract public boolean isObstacle();
 
     public int getLigne() {
         return this.l;
