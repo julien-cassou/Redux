@@ -43,8 +43,7 @@ public class Bille extends Entite {
      * Met à jour la position précise (double) PUIS la case correspondante (int)
      */
     public void avance() {
-        this.x += this
-        .vx;
+        this.x += this.vx;
         this.y += this.vy;
 
         int nouvelleColonne = (int) ((this.x) / this.tailleCase);
