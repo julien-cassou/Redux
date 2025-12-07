@@ -52,6 +52,7 @@ public class CaseOrdinaire extends Case {
                 b.setX(colonneDessin + Taille - r);
                 b.inverseVX();
                 rebond = true;
+                this.enleveResistance(c1);
             }
         } 
         // vers la gauche
@@ -61,6 +62,7 @@ public class CaseOrdinaire extends Case {
                 b.setX(colonneDessin + r);
                 b.inverseVX();
                 rebond = true;
+                this.enleveResistance(c2);
             }
         }
         // 2. Rebonds verticaux
@@ -71,6 +73,7 @@ public class CaseOrdinaire extends Case {
                 b.setY(ligneDessin + Taille - r);
                 b.inverseVY();
                 rebond = true;
+                this.enleveResistance(c3);
             }
         }
         // vers le haut
@@ -80,6 +83,7 @@ public class CaseOrdinaire extends Case {
                 b.setY(ligneDessin + r);
                 b.inverseVY();
                 rebond = true;
+                this.enleveResistance(c4);
             }
         }
 
@@ -108,6 +112,7 @@ public class CaseOrdinaire extends Case {
             Case c1 = l.getCase(lig - 1, col - 1);
             if(c1 != null && (c1  instanceof CaseIntraversable || c1.isObstacle())) {
                 calculerRebondCoin(b, bx, by, vx, vy, u, v);
+                this.enleveResistance(c1);
                 return;
             }
         }
@@ -116,6 +121,7 @@ public class CaseOrdinaire extends Case {
             Case c2 = l.getCase(lig - 1, col + 1);
             if(c2 != null && (c2  instanceof CaseIntraversable || c2.isObstacle())) {
                 calculerRebondCoin(b, bx, by, vx, vy, u1, v);
+                this.enleveResistance(c2);
                 return;
             }
         }
@@ -124,6 +130,7 @@ public class CaseOrdinaire extends Case {
             Case c3 = l.getCase(lig + 1, col - 1);
             if(c3 != null && (c3  instanceof CaseIntraversable || c3.isObstacle())) {
                 calculerRebondCoin(b, bx, by, vx, vy, u, v1);
+                this.enleveResistance(c3);
                 return;
             }   
         }
@@ -132,6 +139,7 @@ public class CaseOrdinaire extends Case {
             Case c4 = l.getCase(lig + 1, col + 1);
             if(c4 != null && (c4  instanceof CaseIntraversable || c4.isObstacle())) {
                 calculerRebondCoin(b, bx, by, vx, vy, u1, v1);
+                this.enleveResistance(c4);
                 return;
             }
         }
@@ -166,7 +174,30 @@ public class CaseOrdinaire extends Case {
      * @return un booléen true si la case contient un obstacle ou est un mur
      */
     public boolean isObstacle() {
-        return this.contenant instanceof Obstacle;
+        return (this.contenant instanceof Obstacle);
+    }
+
+    /**
+     * Applique des dégâts à l'obstacle contenu dans la case c
+     */
+    public void enleveResistance(Case c) {
+        if (c instanceof CaseOrdinaire) {
+            CaseOrdinaire caseCible = (CaseOrdinaire) c;
+            
+            if (caseCible.getEntite() instanceof Obstacle) {
+                Obstacle obs = (Obstacle) caseCible.getEntite();
+                obs.perdResistance(); 
+                
+                if (obs.estCassé()) {
+                    caseCible.setEntite(null); 
+                }
+            }
+        }
+    }
+
+    // Ajoute ce setter dans CaseOrdinaire si tu ne l'as pas encore :
+    public void setEntite(Entite e) {
+        this.contenant = e;
     }
 
 
@@ -194,8 +225,17 @@ public class CaseOrdinaire extends Case {
             g.fillRect(x, y, Taille, Taille);
         }
         else if(this.contenant instanceof Obstacle) {
-            g.setColor(Color.GRAY);
+            int res = ((Obstacle)this.contenant).getRes();
+            if(res >= 10) g.setColor(Color.DARK_GRAY);
+            else if(res == 8) g.setColor(Color.GRAY);
+            else if(res == 6) g.setColor(Color.LIGHT_GRAY);
+            else if(res <= 4) g.setColor(new Color(220, 220, 220));
+            else if(res == 0) g.setColor(Color.WHITE); 
             g.fillRect(x, y, Taille, Taille);
+
+            // Bordure pour bien distinguer les briques
+            g.setColor(Color.BLACK);
+            g.drawRect(x, y, Taille - 1, Taille - 1);
         }
         else {
             g.setColor(Color.WHITE);

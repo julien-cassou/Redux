@@ -1,6 +1,5 @@
 {
     "java.project.sourcePaths": [
-        "Oxyd/src",
         "src"
     ],
     "java.project.outputPath": "bin",

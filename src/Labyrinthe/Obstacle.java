@@ -16,5 +16,13 @@ public class Obstacle extends Entite {
     public void perdResistance() {
         res = res >= 2 ? res - 2 : 0;
     }
+
+
+    /**
+     * @return boolean true si l'obstacle n'a plus de résistance, false sinon
+     */
+    public boolean estCassé() {
+        return this.res <= 0;
+    }
 }
 

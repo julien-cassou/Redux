@@ -39,7 +39,7 @@
 
         @Override
         public void dessinerCase(Graphics g, int Taille) {
-            g.setColor(Color.BLACK);
+            g.setColor(new Color(178, 34, 34));
             g.fillRect(this.getColonne() * Taille, this.getLigne() * Taille, Taille, Taille);
         }
     }
