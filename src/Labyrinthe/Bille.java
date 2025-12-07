@@ -48,9 +48,30 @@ public class Bille extends Entite {
      * Déplace la bille selon sa vitesse
      * Met à jour la position précise (double) PUIS la case correspondante (int)
      */
-    public void avance() {
+    public void avance(double f) {
+        // On limite la vitesse pour ne pas se déplacer de plus d'une 
+        // case par tour
+        double vMax = (this.tailleCase - this.r) * 0.5;
+        if (this.vx > vMax) this.vx = vMax;
+        if (this.vx < -vMax) this.vx = -vMax;
+        if (this.vy > vMax) this.vy = vMax;
+        if (this.vy < -vMax) this.vy = -vMax;
+
         this.x += this.vx;
         this.y += this.vy;
+
+        // Calculs de diminution par le frottement du déplacement
+        double dx, dy;
+        if(this.vx == 0 && this.vy == 0) {
+            dx = 0; dy = 0;
+        }
+        else {
+            double v = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            dx = this.vx / v;
+            dy = this.vy / v;
+        }
+        this.vx -= f*dx*this.tailleCase;
+        this.vy -= f*dy*this.tailleCase;
 
         int nouvelleColonne = (int) ((this.x) / this.tailleCase);
         int nouvelleLigne = (int) ((this.y) / this.tailleCase);

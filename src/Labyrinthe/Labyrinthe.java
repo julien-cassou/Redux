@@ -16,6 +16,7 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     private double sourisX = -1;
     private double sourisY = -1;
     private double fa = 0.001;
+    private double f = 0.005; 
 
     public Labyrinthe(String file) {
         this.TailleCase = 5;
@@ -127,7 +128,7 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     }
     
     public void tour() {
-        this.b.avance();
+        this.b.avance(this.f);
         
         int l = this.b.getLigne();
         int c = this.b.getColonne();
