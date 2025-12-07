@@ -21,6 +21,9 @@
         @Override
         public boolean touch(Bille b, int Taille, Labyrinthe l) { return false;}
 
+        /**
+         * @return un booléen true si la case contient un obstacle ou est un mur
+         */
         @Override
         public boolean isObstacle() {
             return false;

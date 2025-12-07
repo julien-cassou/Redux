@@ -1,18 +1,21 @@
 package Labyrinthe;
-
-import java.io.FileInputStream;
-import java.util.Scanner;
-
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.io.FileInputStream;
+import java.util.Scanner;
 import java.io.IOException;
 
-public class Labyrinthe extends JPanel {
+public class Labyrinthe extends JPanel implements MouseMotionListener, MouseListener{
     private Case[][] laby;
     private int hauteur, largeur;
     private int TailleCase;
     private Bille b;
+    private double sourisX = -1;
+    private double sourisY = -1;
+    private double fa = 0.001;
 
     public Labyrinthe(String file) {
         this.TailleCase = 5;
@@ -32,7 +35,7 @@ public class Labyrinthe extends JPanel {
                     switch (ch) {
                         case '#': cc = new CaseIntraversable(l, c); break;
                         case ' ': cc = new CaseOrdinaire(l, c); break;
-                        case 'S': cc = new Sortie(l, c); System.out.println("Ligne : " + l + " Colonne : " + c); break;
+                        case 'S': cc = new Sortie(l, c); break;
                         
                         case 'B':
                             int r = (int) (this.TailleCase * 0.3f); 
@@ -50,6 +53,10 @@ public class Labyrinthe extends JPanel {
             e.printStackTrace(); 
         }
         this.setPreferredSize(new Dimension(this.largeur * TailleCase, this.hauteur * TailleCase));
+
+        this.addMouseMotionListener(this);
+        this.addMouseListener(this);
+        this.setFocusable(true);
     }
 
     
@@ -85,6 +92,38 @@ public class Labyrinthe extends JPanel {
             return this.laby[y][x];
         }
         return null;
+    }
+
+    @Override public void mouseClicked(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mousePressed(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
+    
+    @Override
+    public void mouseExited(MouseEvent e) {
+        this.sourisX = -1;
+        this.sourisY = -1;
+    }
+
+    public void mouseDragged(MouseEvent e) {
+        mouseMoved(e);
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        int xActuel = e.getX();
+        int yActuel = e.getY();
+        if(this.sourisX != -1 && this.sourisY != -1.0) {
+            double sx = e.getX() - this.sourisX;
+            double sy = e.getY() - this.sourisY;
+
+            double ajoutVX = sx * this.fa * this.TailleCase;
+            double ajoutVY = sy * this.fa * this.TailleCase;
+
+            this.b.setVX(b.getVx() + ajoutVX);
+            this.b.setVY(b.getVy() + ajoutVY);
+        }
+        this.sourisX = xActuel;
+        this.sourisY = yActuel;
     }
     
     public void tour() {

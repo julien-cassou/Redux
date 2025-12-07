@@ -49,7 +49,6 @@ public class CaseOrdinaire extends Case {
         if(vx > 0 && bx + r > colonneDessin + Taille) {
             Case c1 = l.getCase(ligne, colonne + 1);
             if(c1 instanceof CaseIntraversable || c1.isObstacle()) {
-                System.out.println(c1);
                 b.setX(colonneDessin + Taille - r);
                 b.inverseVX();
                 rebond = true;
@@ -59,7 +58,6 @@ public class CaseOrdinaire extends Case {
         else if(vx < 0 && bx - r < colonneDessin) {
             Case c2 = l.getCase(ligne, colonne - 1);
             if(c2 instanceof CaseIntraversable || c2.isObstacle()) {
-                System.out.println(c2);
                 b.setX(colonneDessin + r);
                 b.inverseVX();
                 rebond = true;
@@ -70,7 +68,6 @@ public class CaseOrdinaire extends Case {
         if(vy > 0 && by + r > ligneDessin + Taille) {
             Case c3 = l.getCase(ligne + 1, colonne);
             if(c3 instanceof CaseIntraversable || c3.isObstacle()) {
-                System.out.println(c3);
                 b.setY(ligneDessin + Taille - r);
                 b.inverseVY();
                 rebond = true;
@@ -80,7 +77,6 @@ public class CaseOrdinaire extends Case {
         if(vy < 0 && by - r < ligneDessin) {
             Case c4 = l.getCase(ligne - 1, colonne);
             if(c4 instanceof CaseIntraversable || c4.isObstacle()) {
-                System.out.println(c4);
                 b.setY(ligneDessin + r);
                 b.inverseVY();
                 rebond = true;
@@ -141,6 +137,16 @@ public class CaseOrdinaire extends Case {
         }
     }
     
+    /**
+     * fonction qui applique les formules pour calculer la vitesse suite à un rebord sur un coin.
+     * @param b la bille 
+     * @param bx coords x de la bille
+     * @param by coords y de la bille
+     * @param vx vitesse horizontale de la bille
+     * @param vy vitesse verticale de la bille
+     * @param u coord x du coin de la case 
+     * @param v coord y du coin de la case
+     */
     public void calculerRebondCoin(Bille b, double bx, double by, double vx, double vy, double u, double v) {
         double rc = Math.sqrt((bx - u) * (bx - u) + (by - v) * (by - v));
         
@@ -157,7 +163,7 @@ public class CaseOrdinaire extends Case {
     }
     
     /**
-     * @return un booléen true si
+     * @return un booléen true si la case contient un obstacle ou est un mur
      */
     public boolean isObstacle() {
         return this.contenant instanceof Obstacle;
