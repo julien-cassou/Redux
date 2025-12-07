@@ -10,8 +10,8 @@ public class Bille extends Entite {
 
     public Bille(int l, int c, int r, int tailleCase) {
         super(l, c);
-        this.vx = 0.00 * tailleCase;
-        this.vy = 0.05 * tailleCase;
+        this.vx = 0.05 * tailleCase;
+        this.vy = 0.07 * tailleCase;
         this.r = r;
 
         this.x = c * tailleCase + (tailleCase/2);
@@ -28,6 +28,12 @@ public class Bille extends Entite {
 
     public void inverseVX() { this.vx = this.vx * (-1); }
     public void inverseVY() { this.vy = this.vy * (-1); }
+    public void setVY(double vy) {
+        this.vy = vy;
+    }
+    public void setVX(double vx) {
+        this.vx = vx;
+    }
     
     public void setX(double x) {
         this.x = x;
@@ -49,7 +55,6 @@ public class Bille extends Entite {
         int nouvelleColonne = (int) ((this.x) / this.tailleCase);
         int nouvelleLigne = (int) ((this.y) / this.tailleCase);
         
-        // System.out.println("bx : " + x + " by : " + y + "; ix : " + nouvelleColonne + " iy : " + nouvelleLigne);
         this.setColonne(nouvelleColonne);
         this.setLigne(nouvelleLigne);
     }

@@ -76,7 +76,6 @@ public class Labyrinthe extends JPanel {
         this.b.dessinerBille(g);
     }
 
-
     /**
      * Fonction qui retourne la case du plateau
      * des coords données
@@ -96,32 +95,11 @@ public class Labyrinthe extends JPanel {
 
         Case caseBille = this.getCase(l, c);
         try {
-            caseBille.touch(b, this.TailleCase, this);
+            if(!caseBille.touch(b, this.TailleCase, this)) {
+                caseBille.touchCoin(b, this.TailleCase, this);
+            }
         } catch(NullPointerException e) {
             System.out.println("La case n'existe pas");
         }
-        
-        // verifierCollision(l - 1, c); // Voisin Haut
-        // verifierCollision(l + 1, c); // Voisin Bas
-        // verifierCollision(l, c - 1); // Voisin Gauche
-        // verifierCollision(l, c + 1); // Voisin Droite
-        
-        // Voisins en diagonale pour les coins parfaits
-        // verifierCollision(l - 1, c - 1);
-        // verifierCollision(l - 1, c + 1);
-        // verifierCollision(l + 1, c - 1);
-        // verifierCollision(l + 1, c + 1);
     }
-
-    // Petite fonction pour éviter de copier-coller le if partout
-    // private void verifierCollision(int l, int c) {
-    //     Case caseVoisine = getCase(c, l);
-
-    //     if (caseVoisine == null) {
-    //         return;
-    //     }
-    //     if (caseVoisine instanceof CaseIntraversable || !caseVoisine.isEmpty()) {
-    //         caseVoisine.touch(this.b, this.TailleCase);
-    //     }
-    // }
 }

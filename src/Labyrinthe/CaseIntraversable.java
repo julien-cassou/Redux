@@ -19,13 +19,16 @@
         public void leave(Bille b) {}
 
         @Override
-        public void touch(Bille b, int Taille, Labyrinthe l) {}
+        public boolean touch(Bille b, int Taille, Labyrinthe l) { return false;}
 
         @Override
         public boolean isObstacle() {
             return false;
         }
-        
+
+        @Override
+        public void touchCoin(Bille b, int Taille, Labyrinthe l) {}
+
         @Override
         public String toString() {
             return "#";

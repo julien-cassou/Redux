@@ -28,13 +28,15 @@ public class CaseOrdinaire extends Case {
     public void leave(Bille b) {}
 
     @Override
-    public void touch(Bille b, int Taille, Labyrinthe l) {
+    public boolean touch(Bille b, int Taille, Labyrinthe l) {
         // Déclarations des variables
         double bx = b.getX();
         double by = b.getY();
         int r = b.getRayon(); 
         double vx = b.getVx();
         double vy = b.getVy();
+
+        boolean rebond = false;
 
         int ligneDessin = b.getLigne() * Taille;
         int colonneDessin = b.getColonne() * Taille;
@@ -50,6 +52,7 @@ public class CaseOrdinaire extends Case {
                 System.out.println(c1);
                 b.setX(colonneDessin + Taille - r);
                 b.inverseVX();
+                rebond = true;
             }
         } 
         // vers la gauche
@@ -59,6 +62,7 @@ public class CaseOrdinaire extends Case {
                 System.out.println(c2);
                 b.setX(colonneDessin + r);
                 b.inverseVX();
+                rebond = true;
             }
         }
         // 2. Rebonds verticaux
@@ -69,6 +73,7 @@ public class CaseOrdinaire extends Case {
                 System.out.println(c3);
                 b.setY(ligneDessin + Taille - r);
                 b.inverseVY();
+                rebond = true;
             }
         }
         // vers le haut
@@ -78,10 +83,78 @@ public class CaseOrdinaire extends Case {
                 System.out.println(c4);
                 b.setY(ligneDessin + r);
                 b.inverseVY();
+                rebond = true;
+            }
+        }
+
+        return rebond;
+    }
+
+    @Override
+    public void touchCoin(Bille b, int Taille, Labyrinthe l) {
+        // Déclarations des variables
+        double bx = b.getX();
+        double by = b.getY();
+        int r = b.getRayon(); 
+        double vx = b.getVx();
+        double vy = b.getVy();
+
+        int lig = b.getLigne();
+        int col = b.getColonne();
+
+        int v = lig * Taille;
+        int v1 = v + Taille;
+        int u = col * Taille;
+        int u1 = u + Taille;
+        
+        // Coin Haut gauche
+        if(Math.sqrt((bx - u) * (bx - u) + (by - v) * (by - v)) < r) {
+            Case c1 = l.getCase(lig - 1, col - 1);
+            if(c1 != null && (c1  instanceof CaseIntraversable || c1.isObstacle())) {
+                calculerRebondCoin(b, bx, by, vx, vy, u, v);
+                return;
+            }
+        }
+        // Coin Haut droite 
+        if(Math.sqrt((bx - u1) * (bx - u1) + (by - v) * (by - v)) < r) {
+            Case c2 = l.getCase(lig - 1, col + 1);
+            if(c2 != null && (c2  instanceof CaseIntraversable || c2.isObstacle())) {
+                calculerRebondCoin(b, bx, by, vx, vy, u1, v);
+                return;
+            }
+        }
+        // Coin Bas gauche
+        if(Math.sqrt((bx - u) * (bx - u) + (by - v1) * (by - v1)) < r) {
+            Case c3 = l.getCase(lig + 1, col - 1);
+            if(c3 != null && (c3  instanceof CaseIntraversable || c3.isObstacle())) {
+                calculerRebondCoin(b, bx, by, vx, vy, u, v1);
+                return;
+            }   
+        }
+        // Coin Bas droit
+        if(Math.sqrt((bx - u1) * (bx - u1) + (by - v1) * (by - v1)) < r) {
+            Case c4 = l.getCase(lig + 1, col + 1);
+            if(c4 != null && (c4  instanceof CaseIntraversable || c4.isObstacle())) {
+                calculerRebondCoin(b, bx, by, vx, vy, u1, v1);
+                return;
             }
         }
     }
     
+    public void calculerRebondCoin(Bille b, double bx, double by, double vx, double vy, double u, double v) {
+        double rc = Math.sqrt((bx - u) * (bx - u) + (by - v) * (by - v));
+        
+        double dcx = (bx -u) / rc;
+        double dcy = (by - v) / rc;
+
+        double vcoin = vx*dcx + vy*dcy;
+
+        // On ne rebondit que si on se rapproche du mur / Obstacle
+        if (vcoin < 0) {
+            b.setVX(vx - 2 * vcoin * dcx);
+            b.setVY(vy - 2 * vcoin * dcy);
+        }
+    }
     
     /**
      * @return un booléen true si
@@ -90,7 +163,9 @@ public class CaseOrdinaire extends Case {
         return this.contenant instanceof Obstacle;
     }
 
+
     public Entite getEntite() { return this.contenant;}
+
 
     @Override 
     public String toString() {
