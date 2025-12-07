@@ -1,25 +1,17 @@
 import javax.swing.*;
-import javax.swing.Timer;
-
-import Labyrinthe.Labyrinthe;
-
+import Interface.Interface;
 
 public class Jeu {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         JFrame j = new JFrame("Jeu");
-        Labyrinthe t = new Labyrinthe("Map/laby1.txt");
-        j.getContentPane().add(t);
+        Interface i = new Interface(j);
+        
+        j.add(i);
+        
         j.pack();
+        j.setSize(800, 600);
+        j.setLocationRelativeTo(null);
         j.setVisible(true);
         j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-        int tempo = 50;
-        Timer timer = new javax.swing.Timer(tempo, e -> {
-            t.tour();
-            j.repaint();
-        });
-        timer.setInitialDelay(0);
-        timer.start();
     }
 }
