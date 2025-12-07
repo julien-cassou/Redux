@@ -51,7 +51,7 @@ public class Bille extends Entite {
     public void avance(double f) {
         // On limite la vitesse pour ne pas se déplacer de plus d'une 
         // case par tour
-        double vMax = (this.tailleCase - this.r) * 0.5;
+        double vMax = (this.tailleCase - this.r) * 0.45;
         if (this.vx > vMax) this.vx = vMax;
         if (this.vx < -vMax) this.vx = -vMax;
         if (this.vy > vMax) this.vy = vMax;
