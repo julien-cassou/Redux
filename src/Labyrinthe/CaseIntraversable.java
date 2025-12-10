@@ -13,10 +13,10 @@
         }
 
         @Override
-        public void enter(Bille b) {}
+        public void enter(Bille b, int Taille, Labyrinthe l) {}
         
         @Override
-        public void leave(Bille b) {}
+        public void leave(Bille b, int Taille, Labyrinthe l) {}
 
         @Override
         public boolean touch(Bille b, int Taille, Labyrinthe l) { return false;}

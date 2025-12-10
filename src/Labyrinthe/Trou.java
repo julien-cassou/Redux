@@ -3,8 +3,8 @@ package Labyrinthe;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Sortie extends Case {
-    public Sortie(int l, int c) {
+public class Trou extends Case {
+    public Trou(int l, int c) {
         super(l, c);
     }
 
@@ -20,7 +20,7 @@ public class Sortie extends Case {
 
         if(bx > col && bx < col + Taille && by > ligne && by < ligne + Taille) {
             b = null;
-            l.setEtat(1);
+            l.setEtat(0);
         }
     }
 
@@ -31,14 +31,15 @@ public class Sortie extends Case {
 
     @Override
     public String toString() {
-        return "S";
+        return "T";
     }
 
     @Override
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;
         int y = this.getLigne() * Taille;
-        g.setColor(Color.BLUE);
+        g.setColor(Color.BLACK);
         g.fillRect(x, y, Taille, Taille);
     }
 }
+

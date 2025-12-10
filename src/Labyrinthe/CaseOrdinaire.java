@@ -22,10 +22,10 @@ public class CaseOrdinaire extends Case {
     }
 
     @Override
-    public void enter(Bille b) {}
+    public void enter(Bille b, int Taille, Labyrinthe l) {}
     
     @Override
-    public void leave(Bille b) {}
+    public void leave(Bille b, int Taille, Labyrinthe l) {}
 
     @Override
     public boolean touch(Bille b, int Taille, Labyrinthe l) {
@@ -220,11 +220,7 @@ public class CaseOrdinaire extends Case {
         int x = this.getColonne() * Taille;
         int y = this.getLigne() * Taille;
         
-        if (this instanceof Sortie) {
-            g.setColor(Color.BLUE);
-            g.fillRect(x, y, Taille, Taille);
-        }
-        else if(this.contenant instanceof Obstacle) {
+        if(this.contenant instanceof Obstacle) {
             int res = ((Obstacle)this.contenant).getRes();
             if(res >= 10) g.setColor(Color.DARK_GRAY);
             else if(res == 8) g.setColor(Color.GRAY);

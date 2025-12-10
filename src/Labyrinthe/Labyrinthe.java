@@ -15,8 +15,14 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     private Bille b;
     private double sourisX = -1;
     private double sourisY = -1;
-    private double fa = 0.001;
-    private double f = 0.005; 
+    private double fa = 0.001; // Facteur accélération 
+    private double f = 0.005; // Frottemment 
+    private int etat = -1;
+
+    private static final int EN_JEU = -1;
+    private static final int PERDU = 0;
+    private static final int GAGNE = 1;
+    private boolean isClicked = false;  // Permet de savoir si on a demandé à rejouer en cas de défaite / victoire
 
     public Labyrinthe(String file) {
         this.TailleCase = 5;
@@ -37,12 +43,14 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
                         case '#': cc = new CaseIntraversable(l, c); break;
                         case ' ': cc = new CaseOrdinaire(l, c); break;
                         case 'S': cc = new Sortie(l, c); break;
-                        
-                        case 'B':
+                        case 'T': cc = new Trou(l, c); break;
+                        case 'b':
                             int r = (int) (this.TailleCase * 0.3f); 
                             this.b = new Bille(l, c, r, this.TailleCase); 
-                            cc = new CaseOrdinaire(l, c, this.b); break;
+                            cc = new CaseOrdinaire(l, c); break;
                         case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10)); break;
+                        case 'P': cc = new Patinoire(l, c); break;
+                        case 'B': cc = new Boue(l, c); break;
                         default:  cc = null; break;
                     }
                     this.laby[l][c] = cc;
@@ -60,7 +68,14 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         this.setFocusable(true);
     }
 
-    
+    public void setDefaultfa() {
+        this.fa = 0.001;
+    }
+
+    public void setfa(double newFa) {
+        this.fa = newFa;
+    }
+
     /** Fonction affiche
      *  Elle permet d'afficher dans la console le Labyrinthe 
      */
@@ -76,12 +91,49 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for(int i = 0; i < this.hauteur; i++) {
-            for(int j = 0; j < this.largeur ; j++) {
-                this.laby[i][j].dessinerCase(g, TailleCase);
+
+        if(this.etat == EN_JEU) {
+            for(int i = 0; i < this.hauteur; i++) {
+                for(int j = 0; j < this.largeur ; j++) {
+                    this.laby[i][j].dessinerCase(g, TailleCase);
+                }
             }
+            this.b.dessinerBille(g);
         }
-        this.b.dessinerBille(g);
+        else {
+            // --- ECRAN DE FIN (GAGNE OU PERDU) ---
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, this.largeur * TailleCase, this.hauteur * TailleCase);
+
+            // 2. Configuration du texte
+            String msg = "";
+            Color c = Color.WHITE;
+            if(this.etat == PERDU) {
+                msg = "PERDU !";
+                c = Color.RED;
+            }
+            else if(this.etat == GAGNE) {
+                msg = "GAGNÉ !";
+                c = Color.GREEN;
+            }
+            
+            g.setFont(new Font("Arial", Font.BOLD, 40));
+            g.setColor(c);
+
+            // 3. Centrage du texte principal
+            FontMetrics fm = g.getFontMetrics();
+            int x = (getWidth() - fm.stringWidth(msg)) / 2;
+            int y = getHeight() / 2;
+            g.drawString(msg, x, y);
+
+            // 4. Petit message pour rejouer
+            g.setFont(new Font("Arial", Font.ITALIC, 20));
+            fm = g.getFontMetrics();
+            g.setColor(Color.WHITE);
+            String subMsg = "Cliquez pour recommencer";
+            int subX = (getWidth() - fm.stringWidth(subMsg)) / 2;
+            g.drawString(subMsg, subX, y + 50);
+        }
     }
 
     /**
@@ -95,7 +147,13 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         return null;
     }
 
-    @Override public void mouseClicked(MouseEvent e) {}
+    @Override 
+    public void mouseClicked(MouseEvent e) {
+        if(this.etat != EN_JEU) {
+            this.isClicked = true;
+        }
+    }
+
     @Override public void mouseEntered(MouseEvent e) {}
     @Override public void mousePressed(MouseEvent e) {}
     @Override public void mouseReleased(MouseEvent e) {}
@@ -127,13 +185,20 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         this.sourisY = yActuel;
     }
     
-    public void tour() {
-        this.b.avance(this.f);
-        
+    public int tour() {
+        if (this.etat != EN_JEU) {
+            repaint();
+            return this.isClicked ? -1 : 0;
+        }
+
         int l = this.b.getLigne();
         int c = this.b.getColonne();
+        
+        this.b.avance(this.f);
 
         Case caseBille = this.getCase(l, c);
+        caseBille.leave(this.b, this.TailleCase, this);
+        caseBille.enter(this.b, this.TailleCase, this);
         try {
             if(!caseBille.touch(b, this.TailleCase, this)) {
                 caseBille.touchCoin(b, this.TailleCase, this);
@@ -141,5 +206,11 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         } catch(NullPointerException e) {
             System.out.println("La case n'existe pas");
         }
+
+        return 1;
+    }
+
+    public void setEtat(int n) {
+        this.etat = n;
     }
 }

@@ -10,8 +10,8 @@ public class Bille extends Entite {
 
     public Bille(int l, int c, int r, int tailleCase) {
         super(l, c);
-        this.vx = 0.0 * tailleCase;
-        this.vy = 0.0 * tailleCase;
+        this.vx = 0.0;
+        this.vy = 0.0;
         this.r = r;
 
         this.x = c * tailleCase + (tailleCase/2);
@@ -51,7 +51,7 @@ public class Bille extends Entite {
     public void avance(double f) {
         // On limite la vitesse pour ne pas se déplacer de plus d'une 
         // case par tour
-        double vMax = (this.tailleCase - this.r) * 0.45;
+        double vMax = this.tailleCase * 0.2;
         if (this.vx > vMax) this.vx = vMax;
         if (this.vx < -vMax) this.vx = -vMax;
         if (this.vy > vMax) this.vy = vMax;
