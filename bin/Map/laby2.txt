@@ -1,12 +1,17 @@
-10 10
+15 15
 50
-##########
-#   S    #
-#        #
-#   b    #
-#        #
-#  BBPP  #
-#  BBPP  #
-#  BBPP  #
-#  BBPP  #
-##########
+###############
+#   T   S   T #
+#   ^   ^   ^ #
+#PPPPPPPPPPPPP#
+#^^^^^^^^^^^^^#
+#PPPPPPPPPPPPP#
+#PPPPPPPPPPPPP#
+#^^^^^^^^^^^^^#
+#BOBBB   OBBBB#
+#BBBBB  BBBOBB#
+#BBOBBB  BBBBB#
+#OBBBBBB  BBBB#
+#             #
+#    b        #
+###############

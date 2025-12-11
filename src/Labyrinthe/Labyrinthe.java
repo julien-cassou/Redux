@@ -23,9 +23,11 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     private static final int PERDU = 0;
     private static final int GAGNE = 1;
     private boolean isClicked = false;  // Permet de savoir si on a demandé à rejouer en cas de défaite / victoire
+    private Teleporteur[] memoireTP;
 
     public Labyrinthe(String file) {
         this.TailleCase = 5;
+        this.memoireTP = new Teleporteur[10];
         try {
             Scanner sc = new Scanner(new FileInputStream("src/" + file));
             this.hauteur = sc.nextInt();
@@ -39,19 +41,33 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
                 for (int c = 0; c < this.largeur; c++) {
                     Case cc;
                     Character ch = line.charAt(c);
-                    switch (ch) {
-                        case '#': cc = new CaseIntraversable(l, c); break;
-                        case ' ': cc = new CaseOrdinaire(l, c); break;
-                        case 'S': cc = new Sortie(l, c); break;
-                        case 'T': cc = new Trou(l, c); break;
-                        case 'b':
-                            int r = (int) (this.TailleCase * 0.3f); 
-                            this.b = new Bille(l, c, r, this.TailleCase); 
-                            cc = new CaseOrdinaire(l, c); break;
-                        case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10)); break;
-                        case 'P': cc = new Patinoire(l, c); break;
-                        case 'B': cc = new Boue(l, c); break;
-                        default:  cc = null; break;
+                    if(Character.isDigit(ch)) {
+                        int num = Character.getNumericValue(ch);
+                        cc = new Teleporteur(c, l, num);
+                        if(this.memoireTP[num] == null) {
+                            this.memoireTP[num] = (Teleporteur) cc;
+                        }
+                        else {
+                            this.memoireTP[num].setNext((Teleporteur) cc);
+                            ((Teleporteur)cc).setNext(this.memoireTP[num]);
+                        }
+                    }
+                    else {
+                        switch (ch) {
+                            case '#': cc = new CaseIntraversable(l, c); break;
+                            case ' ': cc = new CaseOrdinaire(l, c); break;
+                            case 'S': cc = new Sortie(l, c); break;
+                            case 'T': cc = new Trou(l, c); break;
+                            case 'b':
+                                int r = (int) (this.TailleCase * 0.3f); 
+                                this.b = new Bille(l, c, r, this.TailleCase); 
+                                cc = new CaseOrdinaire(l, c); break;
+                            case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10)); break;
+                            case 'P': cc = new Patinoire(l, c); break;
+                            case 'B': cc = new Boue(l, c); break;
+                            case '^', 'v', '<', '>' : cc = new Tapis(l, c, Direction.ofChar(ch)); break;
+                            default:  cc = null; break;
+                        }
                     }
                     this.laby[l][c] = cc;
                 }

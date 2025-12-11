@@ -2,16 +2,16 @@
 50
 ###############
 #             #
-#      b      #
-#             #
-###O O O O O###
-#   OTO O O   #
-#    OTO O    #
-#     O O     #
-#      O      #
-#             #
-#    T    T   #
-#             #
-#       S     #
-#             #
+#      b   PP^#
+#          PP^#
+#    T  T  PP^#
+#   >   >  PP^#
+#   T  T   PP^#
+#          PP^#
+#v    >  T PP^#
+#T  v     PPP^#
+#        PPPP^#
+#   T  OOPPPP^#
+#OOO OO S TTT #
+#       > > >^#
 ###############
