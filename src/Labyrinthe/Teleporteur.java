@@ -26,8 +26,17 @@ public class Teleporteur extends CaseOrdinaire {
         int ligne = this.getLigne() * Taille;
         int col = this.getColonne() * Taille;
 
+        Teleporteur tp = this.next;
+        // System.out.println(tp); 
+
         if(bx > col && bx < col + Taille && by > ligne && by < ligne + Taille) {
-            
+            // Teleporteur tp = this.next;
+            System.out.println("test");
+            if(tp != null && b.getCooldown() == 0) {
+                b.setCooldown(4);
+                b.setX(tp.getColonne());
+                b.setY(tp.getLigne());
+            }
         }
     }
 
@@ -35,7 +44,7 @@ public class Teleporteur extends CaseOrdinaire {
 
     @Override
     public String toString() {
-        return "U";
+        return String.valueOf(this.num);
     }
 
     @Override

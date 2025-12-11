@@ -209,6 +209,12 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
 
         int l = this.b.getLigne();
         int c = this.b.getColonne();
+
+        int coolDown = b.getCooldown();
+        // System.out.println(coolDown);
+        if(coolDown > 0) {
+            b.setCooldown(coolDown - 1);
+        }
         
         this.b.avance(this.f);
 

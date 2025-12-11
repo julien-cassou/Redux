@@ -7,6 +7,7 @@ public class Bille extends Entite {
     private double x, y;
     private int r;
     private int tailleCase;
+    private int coolDownTp = 0;
 
     public Bille(int l, int c, int r, int tailleCase) {
         super(l, c);
@@ -25,6 +26,7 @@ public class Bille extends Entite {
     public double getVx() { return vx; }
     public double getVy() { return vy; }
     public int getRayon() {return this.r;}
+    public int getCooldown() {return this.coolDownTp;}
 
     public void inverseVX() { this.vx = this.vx * (-1); }
     public void inverseVY() { this.vy = this.vy * (-1); }
@@ -44,6 +46,11 @@ public class Bille extends Entite {
         this.y = y;
         this.setLigne((int) ((this.y - this.r )/ this.tailleCase));
     }
+
+    public void setCooldown(int t) {
+        this.coolDownTp = t;
+    }
+
     /**
      * Déplace la bille selon sa vitesse
      * Met à jour la position précise (double) PUIS la case correspondante (int)
