@@ -1,13 +1,14 @@
 package Labyrinthe;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Tapis extends CaseOrdinaire {
     private Direction d;
     private double vx, vy;
 
-    public Tapis(int l, int c, Direction d) {
-        super(l, c, null);
+    public Tapis(int l, int c, Direction d, Image sprite) {
+        super(l, c, sprite);
         this.d = d;
 
         switch(d) {

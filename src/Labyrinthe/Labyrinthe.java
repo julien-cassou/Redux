@@ -83,7 +83,16 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
                             case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10, ObstaclePng), SolPng); break;
                             case 'P': cc = new Patinoire(l, c, PatinoirePng); break;
                             case 'B': cc = new Boue(l, c, BouePng); break;
-                            case '^', 'v', '<', '>' : cc = new Tapis(l, c, Direction.ofChar(ch)); break;
+                            case '^', 'v', '<', '>' : 
+                                Direction num = Direction.ofChar(ch);
+                                Image sprite = null;
+                                switch(num) {
+                                    case HAUT: sprite = BoostHPng; break;
+                                    case BAS: sprite = BoostBPng; break;
+                                    case DROITE: sprite = BoostDPng; break;
+                                    case GAUCHE: sprite = BoostGPng; break;
+                                }
+                                cc = new Tapis(l, c, num, sprite); break;
                             default:  cc = null; break;
                         }
                     }
