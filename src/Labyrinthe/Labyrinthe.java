@@ -43,7 +43,7 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
                     Character ch = line.charAt(c);
                     if(Character.isDigit(ch)) {
                         int num = Character.getNumericValue(ch);
-                        cc = new Teleporteur(c, l, num);
+                        cc = new Teleporteur(l, c, num);
                         if(this.memoireTP[num] == null) {
                             this.memoireTP[num] = (Teleporteur) cc;
                         }

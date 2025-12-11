@@ -17,25 +17,20 @@ public class Teleporteur extends CaseOrdinaire {
     }
 
     @Override public boolean isEmpty() { return false;}
-
+    
     @Override 
     public void enter(Bille b, int Taille, Labyrinthe l) {
         double bx = b.getX();
         double by = b.getY();
-
         int ligne = this.getLigne() * Taille;
         int col = this.getColonne() * Taille;
-
-        Teleporteur tp = this.next;
-        // System.out.println(tp); 
-
         if(bx > col && bx < col + Taille && by > ligne && by < ligne + Taille) {
-            // Teleporteur tp = this.next;
-            System.out.println("test");
+            Teleporteur tp = this.next;
+            System.out.println(tp);
             if(tp != null && b.getCooldown() == 0) {
-                b.setCooldown(4);
-                b.setX(tp.getColonne());
-                b.setY(tp.getLigne());
+                b.setCooldown(40);
+                b.setX(tp.getColonne() * Taille + Taille/2 + b.getRayon());
+                b.setY(tp.getLigne() * Taille + Taille/2 + b.getRayon());
             }
         }
     }
