@@ -2,10 +2,11 @@ package Labyrinthe;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Trou extends Case {
-    public Trou(int l, int c) {
-        super(l, c);
+    public Trou(int l, int c, Image sprite) {
+        super(l, c, sprite);
     }
 
     @Override public boolean isEmpty() { return false;}
@@ -38,8 +39,14 @@ public class Trou extends Case {
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;
         int y = this.getLigne() * Taille;
-        g.setColor(Color.BLACK);
-        g.fillRect(x, y, Taille, Taille);
+
+        if(this.getSprite() != null) {
+            dessinerSprite(g, x, y, Taille);
+        }
+        else {
+            g.setColor(Color.BLACK);
+            g.fillRect(x, y, Taille, Taille);
+        }
     }
 }
 

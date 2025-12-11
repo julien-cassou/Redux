@@ -7,6 +7,8 @@ import java.awt.event.MouseMotionListener;
 import java.io.FileInputStream;
 import java.util.Scanner;
 import java.io.IOException;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 public class Labyrinthe extends JPanel implements MouseMotionListener, MouseListener{
     private Case[][] laby;
@@ -25,9 +27,25 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     private boolean isClicked = false;  // Permet de savoir si on a demandé à rejouer en cas de défaite / victoire
     private Teleporteur[] memoireTP;
 
+    // Textures
+    private Image TrouPng;
+    private Image PatinoirePng;
+    private Image SolPng;
+    private Image MurPng;
+    private Image TeleporteurPng;
+    private Image BouePng;
+    private Image BoostHPng;
+    private Image BoostBPng;
+    private Image BoostDPng;
+    private Image BoostGPng;
+    private Image SortiePng;
+    private Image ObstaclePng;
+
+
     public Labyrinthe(String file) {
         this.TailleCase = 5;
         this.memoireTP = new Teleporteur[10];
+        chargerTexture();
         try {
             Scanner sc = new Scanner(new FileInputStream("src/" + file));
             this.hauteur = sc.nextInt();
@@ -43,7 +61,7 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
                     Character ch = line.charAt(c);
                     if(Character.isDigit(ch)) {
                         int num = Character.getNumericValue(ch);
-                        cc = new Teleporteur(l, c, num);
+                        cc = new Teleporteur(l, c, num, TeleporteurPng);
                         if(this.memoireTP[num] == null) {
                             this.memoireTP[num] = (Teleporteur) cc;
                         }
@@ -54,17 +72,17 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
                     }
                     else {
                         switch (ch) {
-                            case '#': cc = new CaseIntraversable(l, c); break;
-                            case ' ': cc = new CaseOrdinaire(l, c); break;
-                            case 'S': cc = new Sortie(l, c); break;
-                            case 'T': cc = new Trou(l, c); break;
+                            case '#': cc = new CaseIntraversable(l, c, MurPng); break;
+                            case ' ': cc = new CaseOrdinaire(l, c, SolPng); break;
+                            case 'S': cc = new Sortie(l, c, SortiePng); break;
+                            case 'T': cc = new Trou(l, c, TrouPng); break;
                             case 'b':
                                 int r = (int) (this.TailleCase * 0.3f); 
                                 this.b = new Bille(l, c, r, this.TailleCase); 
-                                cc = new CaseOrdinaire(l, c); break;
-                            case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10)); break;
-                            case 'P': cc = new Patinoire(l, c); break;
-                            case 'B': cc = new Boue(l, c); break;
+                                cc = new CaseOrdinaire(l, c, SolPng); break;
+                            case 'O': cc = new CaseOrdinaire(l, c, new Obstacle(l, c, 10, ObstaclePng), SolPng); break;
+                            case 'P': cc = new Patinoire(l, c, PatinoirePng); break;
+                            case 'B': cc = new Boue(l, c, BouePng); break;
                             case '^', 'v', '<', '>' : cc = new Tapis(l, c, Direction.ofChar(ch)); break;
                             default:  cc = null; break;
                         }
@@ -82,6 +100,25 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
         this.setFocusable(true);
+    }
+
+    public void chargerTexture() {
+        try {
+            TrouPng = ImageIO.read(new File("src/img/Trou.png"));
+            PatinoirePng = ImageIO.read(new File("src/img/Patinoire.png"));
+            SolPng = ImageIO.read(new File("src/img/Sol.png"));
+            MurPng = ImageIO.read(new File("src/img/Mur.png"));
+            TeleporteurPng = ImageIO.read(new File("src/img/Teleporteur.png"));
+            BouePng = ImageIO.read(new File("src/img/Boue.png"));
+            BoostHPng = ImageIO.read(new File("src/img/BoostHaut.png"));
+            BoostBPng = ImageIO.read(new File("src/img/BoostBas.png"));
+            BoostDPng = ImageIO.read(new File("src/img/BoostDroite.png"));
+            BoostGPng = ImageIO.read(new File("src/img/BoostGauche.png"));
+            SortiePng = ImageIO.read(new File("src/img/Sortie.png"));
+            ObstaclePng = ImageIO.read(new File("src/img/Obstacle.png"));
+        } catch (IOException e) {
+            System.out.println("Image introuvable");
+        }
     }
 
     public void setDefaultfa() {

@@ -2,10 +2,11 @@ package Labyrinthe;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Sortie extends Case {
-    public Sortie(int l, int c) {
-        super(l, c);
+    public Sortie(int l, int c, Image sprite) {
+        super(l, c, sprite);
     }
 
     @Override public boolean isEmpty() { return false;}
@@ -38,7 +39,13 @@ public class Sortie extends Case {
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;
         int y = this.getLigne() * Taille;
-        g.setColor(Color.BLUE);
-        g.fillRect(x, y, Taille, Taille);
+
+        if(this.getSprite() != null) {
+            dessinerSprite(g, x, y, Taille);
+        }
+        else {
+            g.setColor(Color.BLUE);
+            g.fillRect(x, y, Taille, Taille);
+        }
     }
 }

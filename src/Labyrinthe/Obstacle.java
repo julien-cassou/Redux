@@ -1,11 +1,13 @@
 package Labyrinthe;
-
+import java.awt.Image;
 public class Obstacle extends Entite {
     private int res;
+    private Image sprite;
 
-    public Obstacle(int l, int c, int r) {
+    public Obstacle(int l, int c, int r, Image sprite) {
         super(l, c);
         this.res = r;
+        this.sprite = sprite;
     }
 
     public int getRes() {

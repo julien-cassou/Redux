@@ -1,10 +1,11 @@
     package Labyrinthe;
     import java.awt.Color;
     import java.awt.Graphics;
+    import java.awt.Image;
     public class CaseIntraversable extends Case {
         
-        public CaseIntraversable(int l, int c) {
-            super(l,c);
+        public CaseIntraversable(int l, int c, Image sprite) {
+            super(l,c, sprite);
         }
 
         @Override
@@ -39,7 +40,14 @@
 
         @Override
         public void dessinerCase(Graphics g, int Taille) {
-            g.setColor(new Color(178, 34, 34));
-            g.fillRect(this.getColonne() * Taille, this.getLigne() * Taille, Taille, Taille);
+            int x = this.getColonne() * Taille;
+            int y = this.getLigne() * Taille;
+            if(this.getSprite() != null) {
+                dessinerSprite(g, x, y, Taille);
+            }
+            else {
+                g.setColor(new Color(178, 34, 34));
+                g.fillRect(x, y, Taille, Taille);
+            }
         }
     }

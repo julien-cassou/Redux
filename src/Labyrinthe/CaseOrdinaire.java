@@ -1,17 +1,18 @@
 package Labyrinthe;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class CaseOrdinaire extends Case {
     private Entite contenant;
 
-    public CaseOrdinaire(int l, int c) {
-        super(l, c);
+    public CaseOrdinaire(int l, int c, Image sprite) {
+        super(l, c, sprite);
         this.contenant = null;
     }
 
-    public CaseOrdinaire(int l, int c, Entite e) {
-        super(l, c);
+    public CaseOrdinaire(int l, int c, Entite e,  Image sprite) {
+        super(l, c, sprite);
         this.contenant = e;
     }
 
@@ -234,10 +235,15 @@ public class CaseOrdinaire extends Case {
             g.drawRect(x, y, Taille - 1, Taille - 1);
         }
         else {
-            g.setColor(Color.WHITE);
-            g.fillRect(x, y, Taille, Taille);
-            g.setColor(Color.BLACK);
-            g.drawRect(x, y, Taille - 1, Taille - 1);
+            if(this.getSprite() != null) {
+                dessinerSprite(g, x, y, Taille);
+            }
+            else {
+                g.setColor(Color.WHITE);
+                g.fillRect(x, y, Taille, Taille);
+                g.setColor(Color.BLACK);
+                g.drawRect(x, y, Taille - 1, Taille - 1);
+            }
         }
     }
 }

@@ -1,13 +1,14 @@
 package Labyrinthe;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Teleporteur extends CaseOrdinaire {
     private int num;
     private Teleporteur next;
 
-    public Teleporteur(int l, int c, int num) {
-        super(l, c);
+    public Teleporteur(int l, int c, int num, Image sprite) {
+        super(l, c,sprite);
         this.num = num;
         this.next = null;
     }
@@ -46,7 +47,13 @@ public class Teleporteur extends CaseOrdinaire {
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;
         int y = this.getLigne() * Taille;
-        g.setColor(Color.CYAN);
-        g.fillRect(x, y, Taille, Taille);
+
+        if(this.getSprite() != null) {
+            dessinerSprite(g, x, y, Taille);
+        }
+        else {
+            g.setColor(Color.CYAN);
+            g.fillRect(x, y, Taille, Taille);
+        }
     }
 }
