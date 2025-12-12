@@ -27,7 +27,6 @@ public class Teleporteur extends CaseOrdinaire {
         int col = this.getColonne() * Taille;
         if(bx > col && bx < col + Taille && by > ligne && by < ligne + Taille) {
             Teleporteur tp = this.next;
-            System.out.println(tp);
             if(tp != null && b.getCooldown() == 0) {
                 b.setCooldown(40);
                 b.setX(tp.getColonne() * Taille + Taille/2 + b.getRayon());

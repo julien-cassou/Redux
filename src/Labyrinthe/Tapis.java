@@ -64,7 +64,6 @@ public class Tapis extends CaseOrdinaire {
 
     @Override
     public void dessinerCase(Graphics g, int Taille) {
-        // 1. DESSINER LE FOND
         int x = this.getColonne() * Taille;
         int y = this.getLigne() * Taille;
 
@@ -75,48 +74,29 @@ public class Tapis extends CaseOrdinaire {
             g.setColor(Color.LIGHT_GRAY); // Un gris pour faire "métal"
             g.fillRect(x, y, Taille, Taille);
             
-            // 2. DESSINER LA FLÈCHE
-            g.setColor(Color.BLACK); // Couleur de la flèche
+            // dessin de la flèche
+            g.setColor(Color.BLACK);
             
             // On calcule le centre de la case
             int cx = x + Taille / 2;
             int cy = y + Taille / 2;
-            // Taille de la flèche (un tiers de la case)
-            int size = Taille / 3; 
     
             // On dessine selon la direction
-            // Polygon(TableauX, TableauY, nombreDePoints)
             switch(this.d) {
                 case HAUT:
-                    // Tige
-                    g.drawLine(cx, cy + size, cx, cy - size);
-                    // Pointe (Triangle) : Centre-Haut, Gauche, Droite
-                    g.fillPolygon(new int[]{cx, cx - size/2, cx + size/2}, 
-                                new int[]{cy - size, cy, cy}, 3);
+                    g.drawLine(cx, cy - 3, cx, cy + 10);
                     break;
                     
                 case BAS:
-                    // Tige
-                    g.drawLine(cx, cy - size, cx, cy + size);
-                    // Pointe : Centre-Bas, Gauche, Droite
-                    g.fillPolygon(new int[]{cx, cx - size/2, cx + size/2}, 
-                                new int[]{cy + size, cy, cy}, 3);
+                    g.drawLine(cx, cy + 3, cx, cy - 10);
                     break;
                     
                 case GAUCHE:
-                    // Tige
-                    g.drawLine(cx + size, cy, cx - size, cy);
-                    // Pointe : Centre-Gauche, Haut, Bas
-                    g.fillPolygon(new int[]{cx - size, cx, cx}, 
-                                new int[]{cy, cy - size/2, cy + size/2}, 3);
+                    g.drawLine(cx - 3, cy, cx + 10, cy);
                     break;
                     
                 case DROITE:
-                    // Tige
-                    g.drawLine(cx - size, cy, cx + size, cy);
-                    // Pointe : Centre-Droite, Haut, Bas
-                    g.fillPolygon(new int[]{cx + size, cx, cx}, 
-                                new int[]{cy, cy - size/2, cy + size/2}, 3);
+                    g.drawLine(cx + 3, cy, cx - 10, cy);
                     break;
             }
         }
