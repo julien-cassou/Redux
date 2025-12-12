@@ -222,17 +222,23 @@ public class CaseOrdinaire extends Case {
         int y = this.getLigne() * Taille;
         
         if(this.contenant instanceof Obstacle) {
-            int res = ((Obstacle)this.contenant).getRes();
-            if(res >= 10) g.setColor(Color.DARK_GRAY);
-            else if(res == 8) g.setColor(Color.GRAY);
-            else if(res == 6) g.setColor(Color.LIGHT_GRAY);
-            else if(res <= 4) g.setColor(new Color(220, 220, 220));
-            else if(res == 0) g.setColor(Color.WHITE); 
-            g.fillRect(x, y, Taille, Taille);
+            Obstacle o = (Obstacle)this.contenant;
+            if(o.getSprite() != null) {
+                o.dessinerSprite(g, x, y, Taille);
+            }
+            else { 
+                int res = ((Obstacle)this.contenant).getRes();
+                if(res >= 10) g.setColor(Color.DARK_GRAY);
+                else if(res == 8) g.setColor(Color.GRAY);
+                else if(res == 6) g.setColor(Color.LIGHT_GRAY);
+                else if(res <= 4) g.setColor(new Color(220, 220, 220));
+                else if(res == 0) g.setColor(Color.WHITE); 
+                g.fillRect(x, y, Taille, Taille);
 
-            // Bordure pour bien distinguer les briques
-            g.setColor(Color.BLACK);
-            g.drawRect(x, y, Taille - 1, Taille - 1);
+                // Bordure pour bien distinguer les briques
+                g.setColor(Color.BLACK);
+                g.drawRect(x, y, Taille - 1, Taille - 1);
+            }
         }
         else {
             if(this.getSprite() != null) {

@@ -1,5 +1,6 @@
 package Labyrinthe;
 import java.awt.Image;
+import java.awt.Graphics;
 public class Obstacle extends Entite {
     private int res;
     private Image sprite;
@@ -8,6 +9,10 @@ public class Obstacle extends Entite {
         super(l, c);
         this.res = r;
         this.sprite = sprite;
+    }
+
+    public Image getSprite() {
+        return this.sprite;
     }
 
     public int getRes() {
@@ -25,6 +30,10 @@ public class Obstacle extends Entite {
      */
     public boolean estCassé() {
         return this.res <= 0;
+    }
+
+    public void dessinerSprite(Graphics g, int x, int y, int Taille) {
+        g.drawImage(this.sprite, x, y, Taille, Taille, null);
     }
 }
 
