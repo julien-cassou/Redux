@@ -4,6 +4,12 @@
     import java.awt.Image;
     public class CaseIntraversable extends Case {
         
+        /**
+         * Constructeur des Cases Murs
+         * @param l
+         * @param c
+         * @param sprite
+         */
         public CaseIntraversable(int l, int c, Image sprite) {
             super(l,c, sprite);
         }
@@ -33,11 +39,19 @@
         @Override
         public void touchCoin(Bille b, int Taille, Labyrinthe l) {}
 
+        /**
+         * Fonction de test, pour permettre l'affichage de la case dans la console
+         */
         @Override
         public String toString() {
             return "#";
         }
 
+        /**
+         * Dessine la case en fonction de son sprite, ou en une case de couleur prédéfinie
+         * @param g
+         * @param Taille
+         */
         @Override
         public void dessinerCase(Graphics g, int Taille) {
             int x = this.getColonne() * Taille;

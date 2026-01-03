@@ -21,13 +21,15 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     private double f = 0.005; // Frottemment 
     private int etat = -1;
 
-    private static final int EN_JEU = -1;
+    // Constante de l'Etat du jeu
+    private static final int EN_JEU = -1; 
     private static final int PERDU = 0;
     private static final int GAGNE = 1;
+
     private boolean isClicked = false;  // Permet de savoir si on a demandé à rejouer en cas de défaite / victoire
     private Teleporteur[] memoireTP;
 
-    // Textures
+    // Textures des Cases
     private Image TrouPng;
     private Image PatinoirePng;
     private Image SolPng;
@@ -41,7 +43,12 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     private Image SortiePng;
     private Image ObstaclePng;
 
-
+    /**
+     * Construit le labyrinthe à partir d'un fichier Txt
+     * Il contient les dimensions du labyrinthe, la disposition de chaque case,
+     * et aussi la taille de ces dernières.
+     * @param file
+     */
     public Labyrinthe(String file) {
         this.TailleCase = 5;
         this.memoireTP = new Teleporteur[10];
@@ -111,6 +118,9 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         this.setFocusable(true);
     }
 
+    /**
+     * Fonction auxiliaire permettant de charger une unique fois toutes les textures de cases.
+     */
     public void chargerTexture() {
         try {
             TrouPng = ImageIO.read(new File("src/img/Trou.png"));
@@ -130,16 +140,16 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         }
     }
 
+    // Setters
     public void setDefaultfa() {
         this.fa = 0.001;
     }
-
     public void setfa(double newFa) {
         this.fa = newFa;
     }
 
-    /** Fonction affiche
-     *  Elle permet d'afficher dans la console le Labyrinthe 
+    /**
+     * Fonction de test, affiche le labyrinthe complet dans la console
      */
     public void affiche() {
         for(int i = 0; i < this.hauteur; i++) {
@@ -150,6 +160,9 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         }
     }
 
+    /**
+     * Dessine chaque case du labyrinthe 1 par 1, dans le JPanel
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -199,8 +212,10 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     }
 
     /**
-     * Fonction qui retourne la case du plateau
-     * des coords données
+     * Fonction permettant d'obtenir une case du labyrinthe
+     * @param y
+     * @param x
+     * @return
      */
     public Case getCase(int y, int x) {
         if (x >= 0 && x < this.largeur && y >= 0 && y < this.hauteur) {
@@ -209,6 +224,9 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         return null;
     }
 
+    /**
+     * En cas de défaite ou victoire, passe la variable permettant de rejouer à true
+     */
     @Override 
     public void mouseClicked(MouseEvent e) {
         if(this.etat != EN_JEU) {
@@ -220,6 +238,11 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
     @Override public void mousePressed(MouseEvent e) {}
     @Override public void mouseReleased(MouseEvent e) {}
     
+    /**
+     * Met à une valeur décidé pour les calculs les coordonnées x, y de la souris
+     * précédente quand elle sort de l'écran. Afin d'éviter des mouvements quand elle
+     * n'y est plus.
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         this.sourisX = -1;
@@ -230,6 +253,10 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         mouseMoved(e);
     }
 
+    /**
+     * Fait avancer la bille en fonction des déplacements de la souris
+     * @param e
+     */
     public void mouseMoved(MouseEvent e) {
         int xActuel = e.getX();
         int yActuel = e.getY();
@@ -247,6 +274,11 @@ public class Labyrinthe extends JPanel implements MouseMotionListener, MouseList
         this.sourisY = yActuel;
     }
     
+    /**
+     * Fonction réalisant un tour de jeu, vérifie l'Etat actuel du jeu
+     * , les collisions potentiels, ou si la case sort/entre d'une case
+     * @return 1 si le jeu continue, -1 si on décide de rejouer, 0 sinon
+     */
     public int tour() {
         if (this.etat != EN_JEU) {
             repaint();

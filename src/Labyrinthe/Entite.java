@@ -7,18 +7,18 @@ public class Entite {
         this.c = c;
     }
 
+    // Getters
     public int getLigne() {
         return this.l;
     }
-
     public int getColonne() {
         return this.c;
     }
 
+    // Setters
     public void setLigne(int l) {
         this.l = l;
     }
-
     public void setColonne(int c) {
         this.c = c;
     }

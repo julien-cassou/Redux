@@ -7,6 +7,14 @@ public class Tapis extends CaseOrdinaire {
     private Direction d;
     private double vx, vy;
 
+    /**
+     * Constructeur du tapis, contient des vitesses horizontale et verticale
+     * qui s'appliqueront à la bille lorsqu'elle rentre dans la case
+     * @param l
+     * @param c
+     * @param d
+     * @param sprite
+     */
     public Tapis(int l, int c, Direction d, Image sprite) {
         super(l, c, sprite);
         this.d = d;
@@ -33,6 +41,13 @@ public class Tapis extends CaseOrdinaire {
 
     @Override public boolean isEmpty() { return false;}
 
+    /**
+     * Fonction qui calcule si la bille est rentré dans la case
+     * Tapis, lui affecte les vitesses x,y voulues par la Case
+     * @param b
+     * @param Taille
+     * @param l
+     */
     @Override 
     public void enter(Bille b, int Taille, Labyrinthe l) {
         double bx = b.getX();
@@ -47,6 +62,10 @@ public class Tapis extends CaseOrdinaire {
         }
     }
 
+    /**
+     * Fonction de test qui permet l'affichage
+     * de la case dans la console
+     */
     @Override
     public String toString() {
         switch(d) {
@@ -62,6 +81,12 @@ public class Tapis extends CaseOrdinaire {
         }
     }
 
+    /**
+     * Dessine la case en fonction de son sprite, ou en une case de couleur 
+     * prédéfinie (gère la direction du Tapis)
+     * @param g
+     * @param Taille
+     */
     @Override
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;

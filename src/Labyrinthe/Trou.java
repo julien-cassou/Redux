@@ -5,12 +5,26 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class Trou extends Case {
+    /**
+     * Constructeur d'une case de type Trou
+     * @param l
+     * @param c
+     * @param sprite
+     */
     public Trou(int l, int c, Image sprite) {
         super(l, c, sprite);
     }
 
     @Override public boolean isEmpty() { return false;}
 
+    /**
+     * Fonction qui calcule si la bille est rentré dans la case
+     * Trou, fait perdre le joueur et disparaître la bille si c'est
+     * le cas
+     * @param b
+     * @param Taille
+     * @param l
+     */
     @Override 
     public void enter(Bille b, int Taille, Labyrinthe l) {
         double bx = b.getX();
@@ -30,11 +44,21 @@ public class Trou extends Case {
     @Override public boolean isObstacle() { return false;}
     @Override public void touchCoin(Bille b, int Taille, Labyrinthe l) {}
 
+    /**
+     * Fonction de test qui permet l'affichage de la 
+     * case dans la console
+     */
     @Override
     public String toString() {
         return "T";
     }
 
+    /**
+     * Dessine la case en fonction de son sprite, ou en une case de couleur 
+     * prédéfinie
+     * @param g
+     * @param Taille
+     */
     @Override
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;

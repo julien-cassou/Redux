@@ -7,18 +7,35 @@ public class Teleporteur extends CaseOrdinaire {
     private int num;
     private Teleporteur next;
 
+    /**
+     * Constructeur d'une Case Téléporteur
+     * la lie ensuite plus tard avec un deuxième téléporteur lors 
+     * de la création du labyrinthe (1 avec 1, 2 avec 2, etc)
+     * @param l
+     * @param c
+     * @param num
+     * @param sprite
+     */
     public Teleporteur(int l, int c, int num, Image sprite) {
         super(l, c,sprite);
         this.num = num;
         this.next = null;
     }
 
+    // Setter du téléporteur associé à celui ci
     public void setNext(Teleporteur tp) {
         this.next = tp;
     }
 
     @Override public boolean isEmpty() { return false;}
     
+    /**
+     * Fonction qui calcule si la bille est rentré dans la case
+     * Teleporteur, la téléporte sur le téléporteur associé si c'est le cas
+     * @param b
+     * @param Taille
+     * @param l
+     */
     @Override 
     public void enter(Bille b, int Taille, Labyrinthe l) {
         double bx = b.getX();
@@ -37,11 +54,21 @@ public class Teleporteur extends CaseOrdinaire {
 
     @Override public void leave(Bille b, int Taille, Labyrinthe l) {}
 
+    /**
+     * Fonction de test qui permet l'affichage de la case
+     * dans la console
+     */
     @Override
     public String toString() {
         return String.valueOf(this.num);
     }
 
+    /**
+     * Dessine la case en fonction de son sprite, ou en une case de couleur 
+     * prédéfinie
+     * @param g
+     * @param Taille
+     */
     @Override
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;

@@ -14,11 +14,22 @@
         private Labyrinthe actu = null;
         private Timer timer;
 
+        /**
+         * Créer une nouvelle interface en la liant avec un JFrame
+         * @param frame
+         */
         public Interface(JFrame frame) {
             this.frame = frame;
             reconstruireInterface();
         }
 
+        /**
+         * Fonction auxiliaire qui créer les boutons permettant de lancer un niveau précis
+         * @param nom
+         * @param cheminImage
+         * @param indice
+         * @return
+         */
         private JButton creerBouton(String nom, String cheminImage, int indice) {
             ImageIcon icon = new ImageIcon(cheminImage);
             // Petite sécurité si l'image n'est pas trouvée
@@ -51,6 +62,10 @@
             return btn;
         }
 
+        /**
+         * Fonction qui permet de lancer le niveau séléctionné dans le menu
+         * @param indice
+         */
         private void lancerJeu(int indice) {
             frame.getContentPane().removeAll();
             actu = new Labyrinthe(paths[indice]);
@@ -91,8 +106,16 @@
             timer.start();
         }
 
+        /**
+         * 
+         * @return le labyrinthe correspondant au niveau actuel
+         */
         public Labyrinthe getActu() { return this.actu; }
 
+        /**
+         * Fonction auxiliaire utilisée pour initialisé les attributs de l'interface
+         * et le JPanel
+         */
         private void reconstruireInterface() {
             this.setLayout(new GridBagLayout());
             this.setBackground(Color.DARK_GRAY);

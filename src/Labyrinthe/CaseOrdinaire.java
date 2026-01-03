@@ -6,17 +6,32 @@ import java.awt.Image;
 public class CaseOrdinaire extends Case {
     private Entite contenant;
 
+    /**
+     * Premier Constructeur, d'une case vide
+     * @param l
+     * @param c
+     * @param sprite
+     */
     public CaseOrdinaire(int l, int c, Image sprite) {
         super(l, c, sprite);
         this.contenant = null;
     }
 
+    /**
+     * Second Constructeur, pour une CaseOrdinaire contenant une Entite
+     * @param l
+     * @param c
+     * @param e
+     * @param sprite
+     */
     public CaseOrdinaire(int l, int c, Entite e,  Image sprite) {
         super(l, c, sprite);
         this.contenant = e;
     }
 
-
+    /**
+     * @return true si la case contient un Obstacle, false sinon.
+     */
     @Override
     public boolean isEmpty() {
         return this.contenant == null || (this.contenant instanceof Bille);
@@ -24,10 +39,16 @@ public class CaseOrdinaire extends Case {
 
     @Override
     public void enter(Bille b, int Taille, Labyrinthe l) {}
-    
     @Override
     public void leave(Bille b, int Taille, Labyrinthe l) {}
 
+    /**
+     * Fonction qui calcule si la bille touche le bord d'une des 4 cases voisines
+     * à la sienne
+     * @param b
+     * @param Taille
+     * @param l
+     */
     @Override
     public boolean touch(Bille b, int Taille, Labyrinthe l) {
         // Déclarations des variables
@@ -91,6 +112,13 @@ public class CaseOrdinaire extends Case {
         return rebond;
     }
 
+    /**
+     * Fonction qui calcule si la bille touche le coin d'une des 4 cases 
+     * voisines (en diagonale) à la sienne
+     * @param b
+     * @param Taille
+     * @param l
+     */
     @Override
     public void touchCoin(Bille b, int Taille, Labyrinthe l) {
         // Déclarations des variables
@@ -196,15 +224,18 @@ public class CaseOrdinaire extends Case {
         }
     }
 
-    // Ajoute ce setter dans CaseOrdinaire si tu ne l'as pas encore :
+    // Setter
     public void setEntite(Entite e) {
         this.contenant = e;
     }
 
-
+    // Getter
     public Entite getEntite() { return this.contenant;}
 
 
+    /**
+     * Fonction de test, pour permettre l'affichage de la case dans la console
+     */
     @Override 
     public String toString() {
         if(this.contenant instanceof Obstacle) {
@@ -216,6 +247,13 @@ public class CaseOrdinaire extends Case {
         return " ";
     }
 
+    /**
+     * Dessine la case en fonction de son sprite (si elle a un Obstacle ou non), 
+     * ou en une case de couleur prédéfinie (qui devient de plus en plus clair lorque qu'il s'agit d'un 
+     * Obstacle perdant en résistance)
+     * @param g
+     * @param Taille
+     */
     @Override
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;

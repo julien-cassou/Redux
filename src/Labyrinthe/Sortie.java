@@ -5,12 +5,26 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class Sortie extends Case {
+    /**
+     * Constructeur d'une Case de type Sortie
+     * @param l
+     * @param c
+     * @param sprite
+     */
     public Sortie(int l, int c, Image sprite) {
         super(l, c, sprite);
     }
 
     @Override public boolean isEmpty() { return false;}
 
+    /**
+     * Fonction qui calcule si la bille est rentré dans la case
+     * Sortie, change l'état du labyrinthe si c'est le case et fait
+     * disparaître la bille
+     * @param b
+     * @param Taille
+     * @param l
+     */
     @Override 
     public void enter(Bille b, int Taille, Labyrinthe l) {
         double bx = b.getX();
@@ -30,11 +44,20 @@ public class Sortie extends Case {
     @Override public boolean isObstacle() { return false;}
     @Override public void touchCoin(Bille b, int Taille, Labyrinthe l) {}
 
+    /**
+     * Fonction de test, permettant l'affichage de la case dans la 
+     * console
+     */
     @Override
     public String toString() {
         return "S";
     }
 
+    /**
+     * Dessine la case en fonction de son sprite, ou en une case de couleur prédéfinie
+     * @param g
+     * @param Taille
+     */
     @Override
     public void dessinerCase(Graphics g, int Taille) {
         int x = this.getColonne() * Taille;
